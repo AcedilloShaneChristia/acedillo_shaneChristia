@@ -20,6 +20,32 @@
             font-weight: 600;
         }
 
+        /* 🌸 Create Button Style */
+.create-container {
+    text-align: center;
+    margin: 20px 0 25px 0; /* top and bottom spacing */
+}
+
+.create-btn {
+    display: inline-block;
+    padding: 10px 18px;
+    background: linear-gradient(135deg, #d670a7, #b83280);
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: background 0.3s ease, transform 0.2s ease;
+    text-align: center;
+}
+
+.create-btn:hover {
+    background: linear-gradient(135deg, #c05391, #9d296d);
+    transform: translateY(-2px);
+}
+
+
+
         table {
             width: 85%;
             margin: 0 auto;
@@ -92,6 +118,11 @@
     </style>
 </head>
 <body>
+
+<div style="text-align: center; margin-bottom: 15px;">
+    <a href="<?= site_url('user/create') ?>" class="create-btn">+ Create New User</a>
+</div>
+
     <h1>Welcome to View Page</h1>
     <table>
         <tr>
@@ -111,9 +142,16 @@
                     &nbsp;|&nbsp;
                     <a href="<?= site_url('user/delete/'.$user['id']); ?>" 
                        onclick="return confirm('Are you sure you want to delete this user?');">Delete</a>
+                    
+                    
                 </td>
             </tr>
         <?php endforeach; ?>
+
     </table>
+    
+
+
+
 </body>
 </html>
