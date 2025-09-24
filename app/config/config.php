@@ -90,7 +90,7 @@ $config['base_url'] = 'https://acedillo-shanechristia.onrender.com/';
 | variable to blank.
 |
 */
-$config['index_page']               = 'index.php';
+$config['index_page']               = '';
 
 /*
 |--------------------------------------------------------------------------
