@@ -5,16 +5,19 @@ class UserController extends Controller {
     public function __construct()
     {
         parent::__construct();
+        $this->call->model('UserModel');   // make sure UserModel is loaded
+        $this->call->library('pagination'); // load pagination library
     }
 
-    public function all() 
+    public function index()
     {
-        
+        // Current page
         $page = 1;
         if(isset($_GET['page']) && ! empty($_GET['page'])) {
             $page = $this->io->get('page');
         }
 
+        // Search keyword
         $q = '';
         if(isset($_GET['q']) && ! empty($_GET['q'])) {
             $q = trim($this->io->get('q'));
@@ -22,9 +25,16 @@ class UserController extends Controller {
 
         $records_per_page = 10;
 
-        $all = $this->author_model->page($q, $records_per_page, $page);
-        $data['all'] = $all['records'];
+        // Fetch users with pagination (custom function in your model)
+        $all = $this->UserModel->page($q, $records_per_page, $page);
+
+        // Records for current page
+        $data['users'] = $all['records'];
+
+        // Total rows
         $total_rows = $all['total_rows'];
+
+        // Setup pagination
         $this->pagination->set_options([
             'first_link'     => '⏮ First',
             'last_link'      => 'Last ⏭',
@@ -32,17 +42,16 @@ class UserController extends Controller {
             'prev_link'      => '← Prev',
             'page_delimiter' => '&page='
         ]);
-        $this->pagination->set_theme('bootstrap'); // or 'tailwind', or 'custom'
-        $this->pagination->initialize($total_rows, $records_per_page, $page, site_url('users').'?q='.$q);
+        $this->pagination->set_theme('bootstrap'); // 'tailwind' or 'custom'
+        $this->pagination->initialize($total_rows, $records_per_page, $page, site_url('user/index').'?q='.$q);
+
+        // Pass pagination links to view
         $data['page'] = $this->pagination->paginate();
-        $this->call->view('users', $data);
+
+        // Load view
+        $this->call->view('user/view', $data);
     }
 
-    public function index()
-    {
-        $data['users'] = $this->UserModel->all();
-        $this->call->view('user/view', $data);    
-    }
     public function create()
     {
         if($this->io->method() == 'post') {
@@ -51,34 +60,33 @@ class UserController extends Controller {
 
             $data = [
                 'username' => $username,
-                'email' => $email
+                'email'    => $email
             ];
 
             $this->UserModel->insert($data);
             redirect('/');
-            
-        }else {
+        } else {
             $this->call->view('user/create');
         }
     }
+
     public function update($id)
     {
+        $data['user'] = $this->UserModel->find($id);
 
-    $data['user'] = $this->UserModel->find($id);
+        if ($this->io->method() == 'post') {
+            $data = [
+                'username' => $this->io->post('username'),
+                'email'    => $this->io->post('email')
+            ];
 
-    if ($this->io->method() == 'post') {    
-        $data = [
-            'username' => $this->io->post('username'),
-            'email'    => $this->io->post('email')
-        ];
-
-        $this->UserModel->update($id, $data);
-
-        redirect('/');
-    } else {
-        $this->call->view('user/update', $data);
+            $this->UserModel->update($id, $data);
+            redirect('/');
+        } else {
+            $this->call->view('user/update', $data);
+        }
     }
-    }
+
     public function delete($id)
     {
         $this->UserModel->delete($id);
