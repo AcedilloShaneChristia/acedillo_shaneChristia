@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>View</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -21,30 +23,28 @@
         }
 
         /* 🌸 Create Button Style */
-.create-container {
-    text-align: center;
-    margin: 20px 0 25px 0; /* top and bottom spacing */
-}
+        .create-container {
+            text-align: center;
+            margin: 20px 0 25px 0; /* top and bottom spacing */
+        }
 
-.create-btn {
-    display: inline-block;
-    padding: 10px 18px;
-    background: linear-gradient(135deg, #d670a7, #b83280);
-    color: white;
-    font-size: 14px;
-    font-weight: 600;
-    border-radius: 6px;
-    text-decoration: none;
-    transition: background 0.3s ease, transform 0.2s ease;
-    text-align: center;
-}
+        .create-btn {
+            display: inline-block;
+            padding: 10px 18px;
+            background: linear-gradient(135deg, #d670a7, #b83280);
+            color: white;
+            font-size: 14px;
+            font-weight: 600;
+            border-radius: 6px;
+            text-decoration: none;
+            transition: background 0.3s ease, transform 0.2s ease;
+            text-align: center;
+        }
 
-.create-btn:hover {
-    background: linear-gradient(135deg, #c05391, #9d296d);
-    transform: translateY(-2px);
-}
-
-
+        .create-btn:hover {
+            background: linear-gradient(135deg, #c05391, #9d296d);
+            transform: translateY(-2px);
+        }
 
         table {
             width: 85%;
@@ -112,18 +112,30 @@
         }
 
         a[href*="delete"]:hover {
-            background: #d32f2f; /* formal deeper red */
+            background: #d32f2f; /* deeper red */
             transform: translateY(-2px);
         }
     </style>
 </head>
 <body>
 
-<div style="text-align: center; margin-bottom: 15px;">
-    <a href="<?= site_url('user/create') ?>" class="create-btn">+ Create New User</a>
-</div>
+    <!-- Create button -->
+    <div class="create-container">
+        <a href="<?= site_url('user/create') ?>" class="create-btn">+ Create New User</a>
+    </div>
 
     <h1>Welcome to View Page</h1>
+
+    <!-- Search form -->
+    <div class="d-flex justify-content-center mb-3">
+        <form action="<?= site_url('user'); ?>" method="get" class="d-flex" style="max-width: 400px; width:100%;">
+            <?php $q = isset($_GET['q']) ? $_GET['q'] : ''; ?>
+            <input type="text" name="q" class="form-control me-2" placeholder="Search..." value="<?= html_escape($q); ?>">
+            <button type="submit" class="btn btn-primary">Search</button>
+        </form>
+    </div>
+
+    <!-- Table -->
     <table>
         <tr>
             <th>ID</th>
@@ -142,16 +154,15 @@
                     &nbsp;|&nbsp;
                     <a href="<?= site_url('user/delete/'.$user['id']); ?>" 
                        onclick="return confirm('Are you sure you want to delete this user?');">Delete</a>
-                    
-                    
                 </td>
             </tr>
         <?php endforeach; ?>
-
     </table>
-    
 
-
+    <!-- Pagination -->
+    <div class="d-flex justify-content-end mt-3" style="width:85%; margin:auto;">
+        <?= $page; ?>
+    </div>
 
 </body>
 </html>
