@@ -5,11 +5,9 @@ class UserController extends Controller {
     public function __construct()
     {
         parent::__construct();
+        $this->call->library('pagination'); // ✅ make $this->pagination available
     }
 
-    /**
-     * Centralized method for listing users with pagination
-     */
     private function list_users($view)
     {
         $page = !empty($_GET['page']) ? $this->io->get('page') : 1;
@@ -34,21 +32,14 @@ class UserController extends Controller {
 
         $data['page'] = $this->pagination->paginate();
 
-        // Load the given view
         $this->call->view($view, $data);
     }
 
-    /**
-     * Default index (loads user/view.php)
-     */
     public function index()
     {
         return $this->list_users('user/view');
     }
 
-    /**
-     * Alternative listing (loads users.php)
-     */
     public function all()
     {
         return $this->list_users('users');
