@@ -32,7 +32,7 @@ class UserController extends Controller {
 
         $data['page'] = $this->pagination->paginate();
 
-        $this->call->view($view, $data);
+        $this->call->view('view', $data);
     }
 
 
