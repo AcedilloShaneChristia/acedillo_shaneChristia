@@ -10,16 +10,21 @@ class UserController extends Controller {
 
     public function index()
     {
-        $page = !empty($_GET['page']) ? $this->io->get('page') : 1;
-        $q = !empty($_GET['q']) ? trim($this->io->get('q')) : '';
+        $page = 1;
+        if(isset($_GET['page']) && ! empty($_GET['page'])) {
+            $page = $this->io->get('page');
+        }
+
+        $q = '';
+        if(isset($_GET['q']) && ! empty($_GET['q'])) {
+            $q = trim($this->io->get('q'));
+        }
+
         $records_per_page = 10;
 
-        // Get paginated users
         $all = $this->UserModel->page($q, $records_per_page, $page);
-        $data['users'] = $all['records'];
+        $data['all'] = $all['records'];
         $total_rows = $all['total_rows'];
-
-        // Setup pagination
         $this->pagination->set_options([
             'first_link'     => '⏮ First',
             'last_link'      => 'Last ⏭',
@@ -27,11 +32,9 @@ class UserController extends Controller {
             'prev_link'      => '← Prev',
             'page_delimiter' => '&page='
         ]);
-        $this->pagination->set_theme('bootstrap');
-        $this->pagination->initialize($total_rows, $records_per_page, $page, site_url('/user').'?q='.$q);
-
+        $this->pagination->set_theme('bootstrap'); // or 'tailwind', or 'custom'
+        $this->pagination->initialize($total_rows, $records_per_page, $page, site_url('user').'?q='.$q);
         $data['page'] = $this->pagination->paginate();
-
         $this->call->view('view', $data);
     }
 
