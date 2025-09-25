@@ -47,3 +47,4 @@ $router->get('/', 'UserController::index');
 $router->match('/user/create', 'UserController::create', ['GET', 'POST']);
 $router->match('/user/update/{id}', 'UserController::update', ['GET', 'POST']);
 $router->get('/user/delete/{id}', 'UserController::delete');
+$router->get('/user', 'UserController::index');
