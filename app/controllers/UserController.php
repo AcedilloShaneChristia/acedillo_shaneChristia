@@ -53,7 +53,7 @@ class UserController extends Controller {
             $this->UserModel->insert($data);
             redirect('/');
         } else {
-            $this->call->view('user/create');
+            $this->call->view('create');
         }
     }
 
@@ -70,7 +70,7 @@ class UserController extends Controller {
             $this->UserModel->update($id, $data);
             redirect('user/update');
         } else {
-            $this->call->view('user/update', $data);
+            $this->call->view('update', $data);
         }
     }
 
