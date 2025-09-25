@@ -68,9 +68,9 @@ class UserController extends Controller {
             ];
 
             $this->UserModel->update($id, $data);
-            redirect('/');
+            redirect('user/update');
         } else {
-            $this->call->view('update', $data);
+            $this->call->view('user/update', $data);
         }
     }
 
