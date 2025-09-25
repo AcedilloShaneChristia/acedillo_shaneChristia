@@ -35,7 +35,7 @@ class UserController extends Controller {
         $this->pagination->set_theme('bootstrap'); // or 'tailwind', or 'custom'
         $this->pagination->initialize($total_rows, $records_per_page, $page, site_url('user').'?q='.$q);
         $data['page'] = $this->pagination->paginate();
-        $this->call->view('view', $data);
+        $this->call->view('user/view', $data);
     }
 
 
