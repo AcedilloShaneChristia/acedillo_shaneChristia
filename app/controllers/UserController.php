@@ -8,7 +8,7 @@ class UserController extends Controller {
         $this->call->library('pagination'); 
     }
 
-    private function list_users($view)
+    private function index($view)
     {
         $page = !empty($_GET['page']) ? $this->io->get('page') : 1;
         $q = !empty($_GET['q']) ? trim($this->io->get('q')) : '';
@@ -35,15 +35,6 @@ class UserController extends Controller {
         $this->call->view($view, $data);
     }
 
-    public function index()
-    {
-        return $this->list_users('user/view');
-    }
-
-    public function all()
-    {
-        return $this->list_users('users');
-    }
 
     public function create()
     {
