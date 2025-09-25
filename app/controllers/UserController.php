@@ -8,7 +8,7 @@ class UserController extends Controller {
         $this->call->library('pagination'); 
     }
 
-    private function index($view)
+    public function index($view)
     {
         $page = !empty($_GET['page']) ? $this->io->get('page') : 1;
         $q = !empty($_GET['q']) ? trim($this->io->get('q')) : '';
