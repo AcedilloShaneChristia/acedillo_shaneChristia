@@ -5,7 +5,7 @@ class UserController extends Controller {
     public function __construct()
     {
         parent::__construct();
-        $this->call->library('pagination'); // ✅ make $this->pagination available
+        $this->call->library('pagination'); 
     }
 
     private function list_users($view)
@@ -28,7 +28,7 @@ class UserController extends Controller {
             'page_delimiter' => '&page='
         ]);
         $this->pagination->set_theme('bootstrap');
-        $this->pagination->initialize($total_rows, $records_per_page, $page, site_url('/user').'?q='.$q);
+        $this->pagination->initialize($total_rows, $records_per_page, $page, site_url('user').'?q='.$q);
 
         $data['page'] = $this->pagination->paginate();
 
