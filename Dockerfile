@@ -1,4 +1,4 @@
-FROM php:8.2.12-apache-buster
+FROM php:8.2-apache
 
 # Install PDO MySQL
 RUN docker-php-ext-install pdo pdo_mysql
